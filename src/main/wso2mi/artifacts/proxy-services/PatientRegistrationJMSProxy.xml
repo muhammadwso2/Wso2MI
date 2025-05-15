@@ -8,7 +8,7 @@
          <sequence key="PatientRegistrationProcessingSequence"/>
       </inSequence>
    </target>
-   <parameter name="transport.jms.ConnectionFactoryJNDIName">QueueConnectionFactory</parameter>
+   <parameter name="transport.jms.ConnectionFactoryJNDIName">myQueueConnectionFactory</parameter>
    <parameter name="transport.jms.Destination">PatientRegistrationQueue</parameter>
    <parameter name="transport.jms.DestinationType">queue</parameter>
 </proxy>
