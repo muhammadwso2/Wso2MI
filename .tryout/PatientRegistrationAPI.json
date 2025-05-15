@@ -1,0 +1,18 @@
+{
+  "type": "API",
+  "/register": {
+    "requests": [
+      {
+        "name": "MockReq",
+        "contentType": "application/json",
+        "content": {
+          "firstName": "John",
+          "lastName": "Doe"
+        },
+        "queryParams": {},
+        "pathParams": {}
+      }
+    ],
+    "defaultRequest": "MockReq"
+  }
+}

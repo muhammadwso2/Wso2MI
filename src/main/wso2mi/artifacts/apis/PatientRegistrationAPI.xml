@@ -2,73 +2,32 @@
     <resource methods="POST" uri-template="/register">
         <inSequence>
             <log category="INFO">
-                <message>Received patient registration request</message>
+                <message>Hello ${payload}</message>
             </log>
             
-            <!-- Validate JSON payload -->
-            <filter xpath="${exists(payload)}">
-                <then>
-                    <log category="INFO">
-                        <message>Valid patient registration data received</message>
-                    </log>
-                    
-                    <!-- Generate a unique ID for the registration -->
-                    <variable name="registrationId" expression="${utility.string.UUID()}" type="STRING"/>
-                    
-                    <!-- Create a timestamp -->
-                    <variable name="timestamp" expression="${now()}" type="STRING"/>
-                    
-                    <!-- Enhance the payload with metadata -->
-                    <payloadFactory media-type="json">
-                        <format>
-                            {
-                                "registrationId": "${vars.registrationId}",
-                                "timestamp": "${vars.timestamp}",
-                                "patientData": ${payload}
-                            }
-                        </format>
-                    </payloadFactory>
-                    
-                    <!-- Publish to JMS queue -->
-                    <call>
-                        <endpoint key="jmsEndpoint"/>                            
-                    </call>
-                    <log category="INFO">
-                        <message>Patient registration data sent to JMS queue</message>
-                    </log>                
-                    
-                    <!-- Send success response back to client -->
-                    <payloadFactory media-type="json">
-                        <format>
-                            {
-                                "status": "success",
-                                "message": "Patient registration submitted successfully",
-                                "registrationId": "${vars.registrationId}"
-                            }
-                        </format>
-                    </payloadFactory>
-                    <respond/>
-                </then>
-                <else>
-                    <!-- Return error if payload is invalid -->
-                    <payloadFactory media-type="json">
-                        <format>
-                            {
-                                "status": "error",
-                                "message": "Invalid patient registration data"
-                            }
-                        </format>
-                    </payloadFactory>
-                    <respond/>
-                </else>
-            </filter>
+            <!-- Generate timestamp -->
+            <variable expression="get-property('SYSTEM_TIME')" name="timestamp" type="STRING"/>
+            <!-- Aggregate firstName,lastName-->
+            <variable name="Name" type="STRING" expression="${payload.firstName + ' ' + payload.lastName}"/>
+            <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>Name is ${vars.Name}</message>
+            </log><!-- Enhance payload -->
+            <payloadFactory media-type="xml">
+                <format>
+                    <patientRegistration xmlns="">
+                        <timestamp>${vars.timestamp}</timestamp>
+                        <patientName>${vars.Name}</patientName>
+                    </patientRegistration>
+                </format>
+            </payloadFactory>
+            <respond/>
         </inSequence>
         <faultSequence>
             <payloadFactory media-type="json">
                 <format>
                     {
-                        "status": "error",
-                        "message": "An error occurred while processing the registration"
+                    "status": "error",
+                    "message": "An error occurred while processing the registration"
                     }
                 </format>
             </payloadFactory>

@@ -36,13 +36,17 @@ parameter.provider_url = "tcp://localhost:61616"
 parameter.connection_factory_name = "QueueConnectionFactory"
 parameter.connection_factory_type = "queue"
 parameter.cache_level = "producer"
+class = "org.apache.axis2.transport.jms.JMSSender"
+parameter.java.naming.factory.initial = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
 
+[transport.sender.jms]
+class = "org.apache.axis2.transport.jms.JMSSender"
 
 [[transport.jms.listener]]
-name = "myQueueConnectionFactory"
-parameter.initial_naming_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
+name = "QueueConnectionFactory"
+parameter.initial_context_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
 parameter.provider_url = "tcp://localhost:61616"
-parameter.connection_factory_name = "QueueConnectionFactory"
+parameter.connection_factory_name = "ConnectionFactory"
 parameter.connection_factory_type = "queue"
 
 # [transport.jndi.connection_factories]
@@ -109,3 +113,4 @@ parameter.connection_factory_type = "queue"
 
 # [dashboard_config]
 # dashboard_url = "https://localhost:9743/dashboard/api/"
+

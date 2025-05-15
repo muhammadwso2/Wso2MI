@@ -5,7 +5,9 @@
        xmlns="http://ws.apache.org/ns/synapse">
    <target>
       <inSequence>
-         <sequence key="PatientRegistrationProcessingSequence"/>
+         <log level="full">
+        <property name="INFO" value="Checking for new patient registrations"/>
+    </log>
       </inSequence>
    </target>
    <parameter name="transport.jms.ConnectionFactoryJNDIName">myQueueConnectionFactory</parameter>
