@@ -1,0 +1,34 @@
+<sequence name="PatientRegistrationProcessingSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Checking for new patient registrations</message>
+    </log>
+    
+    <!-- Receive message from JMS queue -->
+    <jms.receiveMessage configKey="JMS_CONNECTION">
+        <destination>PatientRegistrationQueue</destination>
+        <messageSelector></messageSelector>
+        <timeout>1000</timeout>
+        <contentType>application/json</contentType>
+    </jms.receiveMessage>
+    
+    <!-- Check if a message was received -->
+    <filter xpath="${exists(payload)}">
+        <then>
+            <log category="INFO">
+                <message>Processing patient registration: ${payload.registrationId}</message>
+            </log>
+            
+            <!-- Here you would add your actual processing logic -->
+            <!-- For example, store in database, send notifications, etc. -->
+            
+            <log category="INFO">
+                <message>Successfully processed registration ${payload.registrationId}</message>
+            </log>
+        </then>
+        <else>
+            <log category="DEBUG">
+                <message>No new registrations found</message>
+            </log>
+        </else>
+    </filter>
+</sequence>

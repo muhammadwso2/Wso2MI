@@ -1,0 +1,5 @@
+<task class="org.apache.synapse.startup.tasks.MessageInjector" group="synapse.simple.quartz" name="PatientRegistrationConsumerTask" xmlns="http://ws.apache.org/ns/synapse">
+    <trigger interval="10"/>
+    <property name="sequenceName" value="PatientRegistrationProcessingSequence"/>
+    <property name="injectTo" value="sequence"/>
+</task>
