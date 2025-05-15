@@ -5,7 +5,7 @@
 
     <!-- Assuming the payload is already set via JMS Proxy or another mediator -->
     <!-- Use a filter to check if payload contains registrationId -->
-    <filter xpath="boolean(json-eval($.registrationId))">
+    <filter xpath="json-eval($.registrationId)">
         <then>
             <log level="custom">
                 <property name="INFO" expression="fn:concat('Processing patient registration: ', json-eval('$.registrationId'))"/>
