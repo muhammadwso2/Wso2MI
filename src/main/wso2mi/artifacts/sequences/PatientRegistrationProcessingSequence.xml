@@ -1,33 +1,25 @@
 <sequence name="PatientRegistrationProcessingSequence" xmlns="http://ws.apache.org/ns/synapse">
-    <log category="INFO">
-        <message>Checking for new patient registrations</message>
+    <log level="custom">
+        <property name="INFO" value="Checking for new patient registrations"/>
     </log>
-    
-    <!-- Receive message from JMS queue -->
-    <jms.receiveMessage configKey="JMS_CONNECTION">
-        <destination>PatientRegistrationQueue</destination>
-        <messageSelector></messageSelector>
-        <timeout>1000</timeout>
-        <contentType>application/json</contentType>
-    </jms.receiveMessage>
-    
-    <!-- Check if a message was received -->
-    <filter xpath="${exists(payload)}">
+
+    <!-- Assuming the payload is already set via JMS Proxy or another mediator -->
+    <!-- Use a filter to check if payload contains registrationId -->
+    <filter xpath="boolean(json-eval($.registrationId))">
         <then>
-            <log category="INFO">
-                <message>Processing patient registration: ${payload.registrationId}</message>
+            <log level="custom">
+                <property name="INFO" expression="fn:concat('Processing patient registration: ', json-eval('$.registrationId'))"/>
             </log>
-            
-            <!-- Here you would add your actual processing logic -->
-            <!-- For example, store in database, send notifications, etc. -->
-            
-            <log category="INFO">
-                <message>Successfully processed registration ${payload.registrationId}</message>
+
+            <!-- Your processing logic would go here -->
+
+            <log level="custom">
+                <property name="INFO" expression="fn:concat('Successfully processed registration ', json-eval('$.registrationId'))"/>
             </log>
         </then>
         <else>
-            <log category="DEBUG">
-                <message>No new registrations found</message>
+            <log level="custom">
+                <property name="DEBUG" value="No new registrations found or invalid message"/>
             </log>
         </else>
     </filter>

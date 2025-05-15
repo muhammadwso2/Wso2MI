@@ -1,0 +1,14 @@
+<proxy name="PatientRegistrationJMSProxy"
+       transports="jms"
+       startOnLoad="true"
+       trace="disable"
+       xmlns="http://ws.apache.org/ns/synapse">
+   <target>
+      <inSequence>
+         <sequence key="PatientRegistrationProcessingSequence"/>
+      </inSequence>
+   </target>
+   <parameter name="transport.jms.ConnectionFactoryJNDIName">QueueConnectionFactory</parameter>
+   <parameter name="transport.jms.Destination">PatientRegistrationQueue</parameter>
+   <parameter name="transport.jms.DestinationType">queue</parameter>
+</proxy>
