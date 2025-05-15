@@ -30,10 +30,12 @@
                     </payloadFactory>
                     
                     <!-- Publish to JMS queue -->
-                    <jms.publishMessage configKey="JMS_CONNECTION">
-                        <destination>PatientRegistrationQueue</destination>
-                        <messageType>application/json</messageType>
-                    </jms.publishMessage>
+                    <call>
+                        <endpoint key="jmsEndpoint"/>                            
+                    </call>
+                    <log category="INFO">
+                        <message>Patient registration data sent to JMS queue</message>
+                    </log>                
                     
                     <!-- Send success response back to client -->
                     <payloadFactory media-type="json">

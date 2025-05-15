@@ -25,17 +25,17 @@ algorithm = "AES"
 # disable_connection_keepalive = false
 # connection_timeout = 90000 # in milliseconds
 
-# [transport.jms]
-# sender_enable = true
-# listener_enable = true
+[transport.jms]
+sender_enable = true
+listener_enable = true
 
-# [[transport.jms.sender]]
-# name = "myQueueSender"
-# parameter.initial_naming_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
-# parameter.provider_url = "tcp://localhost:61616"
-# parameter.connection_factory_name = "QueueConnectionFactory"
-# parameter.connection_factory_type = "queue"
-# parameter.cache_level = "producer"
+[[transport.jms.sender]]
+name = "myQueueSender"
+parameter.initial_naming_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
+parameter.provider_url = "tcp://localhost:61616"
+parameter.connection_factory_name = "QueueConnectionFactory"
+parameter.connection_factory_type = "queue"
+parameter.cache_level = "producer"
 
 
 #[[transport.jms.listener]]
